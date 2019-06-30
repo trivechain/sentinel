@@ -16,13 +16,13 @@ min_trivechaind_proto_version_with_sentinel_ping = 70207
 
 def get_trivechain_conf():
     if sys.platform == 'win32':
-        trivechain_conf = os.path.join(os.getenv('APPDATA'), "TrivechainCore/trivechain.conf")
+        trivechain_conf = os.path.join(os.getenv('APPDATA'), "Trivechain/trivechain.conf")
     else:
         home = os.environ.get('HOME')
 
-        trivechain_conf = os.path.join(home, ".trivechaincore/trivechain.conf")
+        trivechain_conf = os.path.join(home, ".trivechain/trivechain.conf")
         if sys.platform == 'darwin':
-            trivechain_conf = os.path.join(home, "Library/Application Support/TrivechainCore/trivechain.conf")
+            trivechain_conf = os.path.join(home, "Library/Application Support/Trivechain/trivechain.conf")
 
     trivechain_conf = sentinel_cfg.get('trivechain_conf', trivechain_conf)
 
