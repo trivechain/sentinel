@@ -2,11 +2,11 @@
 
 An all-powerful toolset for Trivechain.
 
-[![Build Status](https://travis-ci.org/trivechainpay/sentinel.svg?branch=master)](https://travis-ci.org/trivechainpay/sentinel)
+[![Build Status](https://travis-ci.org/trivechain/sentinel.svg?branch=master)](https://travis-ci.org/trivechain/sentinel)
 
-Sentinel is an autonomous agent for persisting, processing and automating Trivechain governance objects and tasks, and for expanded functions in the upcoming Trivechain V13 release (Evolution).
+Sentinel is an autonomous agent for persisting, processing and automating Trivechain governance objects and tasks, and for expanded functions in the upcoming Trivechain V2 release.
 
-Sentinel is implemented as a Python application that binds to a local version 12 trivechaind instance on each Trivechain Masternode.
+Sentinel is implemented as a Python application that binds to a local version 2.0.0.1 trivechaind instance on each Trivechain Masternode.
 
 This guide covers installing Sentinel onto an existing Masternode in Ubuntu 14.04 / 16.04.
 
@@ -23,7 +23,7 @@ Update system packages and ensure virtualenv is installed:
     $ sudo apt-get update
     $ sudo apt-get -y install python-virtualenv
 
-Make sure the local Trivechain daemon running is at least version 12.1 (120100)
+Make sure the local Trivechain daemon running is at least version 2.0.0.0 (2000000)
 
     $ trivechain-cli getinfo | grep version
 
@@ -31,7 +31,7 @@ Make sure the local Trivechain daemon running is at least version 12.1 (120100)
 
 Clone the Sentinel repo and install Python dependencies.
 
-    $ git clone https://github.com/trivechainpay/sentinel.git && cd sentinel
+    $ git clone https://github.com/trivechain/sentinel.git && cd sentinel
     $ virtualenv ./venv
     $ ./venv/bin/pip install -r requirements.txt
 
@@ -44,14 +44,6 @@ Set up a crontab entry to call Sentinel every minute:
 In the crontab editor, add the lines below, replacing '/home/YOURUSERNAME/sentinel' to the path where you cloned sentinel to:
 
     * * * * * cd /home/YOURUSERNAME/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1
-
-### 4. Test the Configuration
-
-Test the config by running all tests from the sentinel folder you cloned into
-
-    $ ./venv/bin/py.test ./test
-
-With all tests passing and crontab setup, Sentinel will stay in sync with trivechaind and the installation is complete
 
 ## Configuration
 
@@ -71,7 +63,7 @@ Please follow the [TrivechainCore guidelines for contributing](https://github.co
 
 Specifically:
 
-* [Contributor Workflow](https://github.com/trivechainpay/trivechain/blob/master/CONTRIBUTING.md#contributor-workflow)
+* [Contributor Workflow](https://github.com/trivechain/trivechain-core/blob/master/CONTRIBUTING.md#contributor-workflow)
 
     To contribute a patch, the workflow is as follows:
 
