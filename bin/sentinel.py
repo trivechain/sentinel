@@ -30,15 +30,6 @@ def prune_expired_proposals(trivechaind):
         proposal.vote(trivechaind, VoteSignals.delete, VoteOutcomes.yes)
 
 
-# ping trivechaind
-def sentinel_ping(trivechaind):
-    printdbg("in sentinel_ping")
-
-    trivechaind.ping()
-
-    printdbg("leaving sentinel_ping")
-
-
 def attempt_superblock_creation(trivechaind):
     import trivechainlib
 
@@ -74,8 +65,7 @@ def attempt_superblock_creation(trivechaind):
     budget_max = trivechaind.get_superblock_budget_allocation(event_block_height)
     sb_epoch_time = trivechaind.block_height_to_epoch(event_block_height)
 
-    maxgovobjdatasize = trivechaind.govinfo['maxgovobjdatasize']
-    sb = trivechainlib.create_superblock(proposals, event_block_height, budget_max, sb_epoch_time, maxgovobjdatasize)
+    sb = trivechainlib.create_superblock(proposals, event_block_height, budget_max, sb_epoch_time)
     if not sb:
         printdbg("No superblock created, sorry. Returning.")
         return
@@ -125,6 +115,11 @@ def main():
     trivechaind = TrivechainDaemon.from_trivechain_conf(config.trivechain_conf)
     options = process_args()
 
+    # print version and return if "--version" is an argument
+    if options.version:
+        print("Trivechain Sentinel v%s" % config.sentinel_version)
+        return
+
     # check trivechaind connectivity
     if not is_trivechaind_port_open(trivechaind):
         print("Cannot connect to trivechaind. Please ensure trivechaind is running and the JSONRPC port is open to Sentinel.")
@@ -170,9 +165,6 @@ def main():
     # load "gobject list" rpc command data, sync objects into internal database
     perform_trivechaind_object_sync(trivechaind)
 
-    if trivechaind.has_sentinel_ping:
-        sentinel_ping(trivechaind)
-
     # auto vote network objects as valid/invalid
     # check_object_validity(trivechaind)
 
@@ -202,6 +194,10 @@ def process_args():
                         action='store_true',
                         help='Bypass scheduler and sync/vote immediately',
                         dest='bypass')
+    parser.add_argument('-v', '--version',
+                        action='store_true',
+                        help='Print the version (Trivechain Sentinel vX.X.X) and exit')
+
     args = parser.parse_args()
 
     return args

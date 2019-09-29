@@ -1,18 +1,26 @@
 # Trivechain Sentinel
 
-An all-powerful toolset for Trivechain.
-
 [![Build Status](https://travis-ci.org/trivechain/sentinel.svg?branch=master)](https://travis-ci.org/trivechain/sentinel)
 
-Sentinel is an autonomous agent for persisting, processing and automating Trivechain governance objects and tasks, and for expanded functions in the upcoming Trivechain V2 release.
+> An automated governance helper for Trivechain Masternodes.
 
-Sentinel is implemented as a Python application that binds to a local version 2.0.0.1 trivechaind instance on each Trivechain Masternode.
+Sentinel is an autonomous agent for persisting, processing and automating Trivechain governance objects and tasks. It is a Python application which runs alongside the TrivechainCore instance on each Trivechain Masternode.
 
-This guide covers installing Sentinel onto an existing Masternode in Ubuntu 14.04 / 16.04.
+## Table of Contents
+- [Install](#install)
+  - [Dependencies](#dependencies)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Troubleshooting](#troubleshooting)
+- [Maintainer](#maintainer)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Installation
+## Install
 
-### 1. Install Prerequisites
+These instructions cover installing Sentinel on Ubuntu 16.04 / 18.04.
+
+### Dependencies
 
 Make sure Python version 2.7.x or above is installed:
 
@@ -23,11 +31,11 @@ Update system packages and ensure virtualenv is installed:
     $ sudo apt-get update
     $ sudo apt-get -y install python-virtualenv
 
-Make sure the local Trivechain daemon running is at least version 2.0.0.0 (2000000)
+Make sure the local TrivechainCore daemon running is at least version 2.1 (2010000)
 
     $ trivechain-cli getinfo | grep version
 
-### 2. Install Sentinel
+### Install Sentinel
 
 Clone the Sentinel repo and install Python dependencies.
 
@@ -35,15 +43,27 @@ Clone the Sentinel repo and install Python dependencies.
     $ virtualenv ./venv
     $ ./venv/bin/pip install -r requirements.txt
 
-### 3. Set up Cron
+## Usage
+
+Sentinel is "used" as a script called from cron every minute.
+
+### Set up Cron
 
 Set up a crontab entry to call Sentinel every minute:
 
     $ crontab -e
 
-In the crontab editor, add the lines below, replacing '/home/YOURUSERNAME/sentinel' to the path where you cloned sentinel to:
+In the crontab editor, add the lines below, replacing '/path/to/sentinel' to the path where you cloned sentinel to:
 
-    * * * * * cd /home/YOURUSERNAME/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1
+    * * * * * cd /path/to/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1
+
+### Test Configuration
+
+Test the config by running tests:
+
+    $ ./venv/bin/py.test ./test
+
+With all tests passing and crontab setup, Sentinel will stay in sync with trivechaind and the installation is complete
 
 ## Configuration
 
@@ -57,9 +77,13 @@ To view debug output, set the `SENTINEL_DEBUG` environment variable to anything 
 
     $ SENTINEL_DEBUG=1 ./venv/bin/python bin/sentinel.py
 
+## Maintainer
+
+[@nmarley](https://github.com/nmarley)
+
 ## Contributing
 
-Please follow the [TrivechainCore guidelines for contributing](https://github.com/trivechainpay/trivechain/blob/master/CONTRIBUTING.md).
+Please follow the [TrivechainCore guidelines for contributing](https://github.com/trivechain/trivechain-core/blob/master/CONTRIBUTING.md).
 
 Specifically:
 
@@ -75,6 +99,6 @@ Specifically:
 
     Commit messages should be verbose by default, consisting of a short subject line (50 chars max), a blank line and detailed explanatory text as separate paragraph(s); unless the title alone is self-explanatory (like "Corrected typo in main.cpp") then a single title line is sufficient. Commit messages should be helpful to people reading your code in the future, so explain the reasoning for your decisions. Further explanation [here](http://chris.beams.io/posts/git-commit/).
 
-### License
+## License
 
 Released under the MIT license, under the same terms as TrivechainCore itself. See [LICENSE](LICENSE) for more info.
