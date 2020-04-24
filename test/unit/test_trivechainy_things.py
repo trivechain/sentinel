@@ -7,12 +7,12 @@ sys.path.append(os.path.normpath(os.path.join(os.path.dirname(__file__), '../../
 
 @pytest.fixture
 def valid_trivechain_address(network='mainnet'):
-    return 'yYe8KwyaUu5YswSYmB3q3ryx8XTUu9y7Ui' if (network == 'testnet') else 'XpjStRH8SgA6PjgebtPZqCa9y7hLXP767n'
+    return 'tCa7rDMXs1KeqaqmcFoXxXMmwT9eq9r7oK' if (network == 'testnet') else 'TRVC9NKVtFGkzgebwbAJvunQ16vmHRLRd8'
 
 
 @pytest.fixture
 def invalid_trivechain_address(network='mainnet'):
-    return 'yYe8KwyaUu5YswSYmB3q3ryx8XTUu9y7Uj' if (network == 'testnet') else 'XpjStRH8SgA6PjgebtPZqCa9y7hLXP767m'
+    return 'tCa7rDMXs1KeqaqmcFoXxXMmwT9eq9r7oo' if (network == 'testnet') else 'TRVC9NKVtFGkzgebwbAJvunQ16vmHRLRd7'
 
 
 @pytest.fixture

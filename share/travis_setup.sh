@@ -1,9 +1,9 @@
 #!/bin/bash
 set -evx
 
-mkdir ~/.trivechaincore
+mkdir ~/.trivechain
 
 # safety check
-if [ ! -f ~/.trivechaincore/.trivechain.conf ]; then
+if [ ! -f ~/.trivechain/.trivechain.conf ]; then
   cp share/trivechain.conf.example ~/.trivechain/trivechain.conf
 fi

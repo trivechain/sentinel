@@ -143,9 +143,9 @@ class TrivechainDaemon():
 
     def is_govobj_maturity_phase(self):
         # 3-day period for govobj maturity
-        maturity_phase_delta = 1662      # ~(60*24*3)/2.6
+        maturity_phase_delta = 4320      # ~(60*24*3)
         if config.network == 'testnet':
-            maturity_phase_delta = 24    # testnet
+            maturity_phase_delta = 60    # testnet
 
         event_block_height = self.next_superblock_height()
         maturity_phase_start_block = event_block_height - maturity_phase_delta

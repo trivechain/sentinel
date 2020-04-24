@@ -16,12 +16,12 @@ def test_trivechaind():
     config_text = TrivechainConfig.slurp_config_file(config.trivechain_conf)
     network = 'mainnet'
     is_testnet = False
-    genesis_hash = u'00000ffd590b1485b3caadc19b22e6379c733355108f107a430458cdf3407ab6'
+    genesis_hash = u'000008ad295e16d2a5456aef65cb1c28139835aba6a340d0be0fb8ca2b2e9e26'
     for line in config_text.split("\n"):
         if line.startswith('testnet=1'):
             network = 'testnet'
             is_testnet = True
-            genesis_hash = u'00000bafbc94add76cb75e2ec92894837288a481e5c005f6563d91623bf8bc2c'
+            genesis_hash = u'00000288fe5535c740c1418c70a6da3affa7c858ea6de8852a568ed24d5328d5'
 
     creds = TrivechainConfig.get_rpc_creds(config_text, network)
     trivechaind = TrivechainDaemon(**creds)
@@ -29,7 +29,7 @@ def test_trivechaind():
 
     assert hasattr(trivechaind, 'rpc_connection')
 
-    # Trivechain testnet block 0 hash == 00000bafbc94add76cb75e2ec92894837288a481e5c005f6563d91623bf8bc2c
+    # Trivechain testnet block 0 hash == 00000288fe5535c740c1418c70a6da3affa7c858ea6de8852a568ed24d5328d5
     # test commands without arguments
     info = trivechaind.rpc_command('getinfo')
     info_keys = [

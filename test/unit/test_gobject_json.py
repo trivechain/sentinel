@@ -6,29 +6,13 @@ sys.path.append(os.path.normpath(os.path.join(os.path.dirname(__file__), '../../
 import trivechainlib
 import gobject_json
 
-
-# old format proposal hex w/multi-dimensional array
-@pytest.fixture
-def proposal_hex_old():
-    return "5b5b2270726f706f73616c222c207b22656e645f65706f6368223a20313534373138333939342c20226e616d65223a20226a61636b2d73706172726f772d6e65772d73686970222c20227061796d656e745f61646472657373223a2022795965384b77796155753559737753596d4233713372797838585455753979375569222c20227061796d656e745f616d6f756e74223a2034392c202273746172745f65706f6368223a20313532313432393139342c202274797065223a20312c202275726c223a202268747470733a2f2f7777772e6461736863656e7472616c2e6f72672f626c61636b2d706561726c227d5d5d"
-
-
-# same proposal data as old, but streamlined format
 @pytest.fixture
 def proposal_hex_new():
-    return "7b22656e645f65706f6368223a20313534373138333939342c20226e616d65223a20226a61636b2d73706172726f772d6e65772d73686970222c20227061796d656e745f61646472657373223a2022795965384b77796155753559737753596d4233713372797838585455753979375569222c20227061796d656e745f616d6f756e74223a2034392c202273746172745f65706f6368223a20313532313432393139342c202274797065223a20312c202275726c223a202268747470733a2f2f7777772e6461736863656e7472616c2e6f72672f626c61636b2d706561726c227d"
+    return "7b22656e645f65706f6368223a313538363830343735332c226e616d65223a226275696c642d74726976652d676f7665726e616e6365222c227061796d656e745f61646472657373223a2254526258744e6f714e5650394151327631556f74664d37424a39505863415a783942222c227061796d656e745f616d6f756e74223a3130303030302c2273746172745f65706f6368223a313538343038333135332c2274797065223a312c2275726c223a2268747470733a2f2f676f762e7472697665636861696e2e636f6d2f70726f706f73616c2f6275696c642d74726976652d676f7665726e616e6365227d"
 
-
-# old format trigger hex w/multi-dimensional array
-@pytest.fixture
-def trigger_hex_old():
-    return "5b5b2274726967676572222c207b226576656e745f626c6f636b5f686569676874223a2036323530302c20227061796d656e745f616464726573736573223a2022795965384b77796155753559737753596d42337133727978385854557539793755697c795443363268755234595145506e39414a486a6e517878726548536267416f617456222c20227061796d656e745f616d6f756e7473223a2022357c33222c202274797065223a20327d5d5d"
-
-
-# same data as new, but simpler format
 @pytest.fixture
 def trigger_hex_new():
-    return "7b226576656e745f626c6f636b5f686569676874223a2036323530302c20227061796d656e745f616464726573736573223a2022795965384b77796155753559737753596d42337133727978385854557539793755697c795443363268755234595145506e39414a486a6e517878726548536267416f617456222c20227061796d656e745f616d6f756e7473223a2022357c33222c202274797065223a20327d"
+    return "7b226576656e745f626c6f636b5f686569676874223a2036323530302c20227061796d656e745f616464726573736573223a20227443613772444d5873314b657161716d63466f5878584d6d77543965713972376f4b7c7437524b54424e5a7354626a77416f585966735373545377696d787a444b68354675222c20227061796d656e745f616d6f756e7473223a2022357c33222c202270726f706f73616c5f686173686573223a2022653861303035373931346132653139363461653861393435633437323334393163616165323037376139306130306132616162656532326234303038316138377c64316365373335323764376364366632323138663863613839333939306263376435633662393333343739316365373937336266613232663135356638323665222c202274797065223a20327d"
 
 
 def test_valid_json():
@@ -41,16 +25,10 @@ def test_valid_json():
     assert gobject_json.valid_json("false") is True
     assert gobject_json.valid_json("\"rubbish\"") is True
     assert gobject_json.valid_json(
-        binascii.unhexlify(proposal_hex_old())
-    ) is True
-    assert gobject_json.valid_json(
         binascii.unhexlify(proposal_hex_new())
     ) is True
     assert gobject_json.valid_json(
         binascii.unhexlify(trigger_hex_new())
-    ) is True
-    assert gobject_json.valid_json(
-        binascii.unhexlify(trigger_hex_old())
     ) is True
 
     # test some invalid/bad/not JSON
@@ -63,7 +41,7 @@ def test_valid_json():
     assert gobject_json.valid_json("{{}") is False
     assert gobject_json.valid_json("") is False
 
-    poorly_formatted = trigger_hex_old() + "7d"
+    poorly_formatted = trigger_hex_new() + "7d"
     assert gobject_json.valid_json(
         binascii.unhexlify(poorly_formatted)
     ) is False
@@ -73,38 +51,29 @@ def test_extract_object():
     from decimal import Decimal
     import binascii
 
-    # jack sparrow needs a new ship - same expected proposal data for both new &
-    # old formats
     expected = {
         'type': 1,
-        'name': 'jack-sparrow-new-ship',
-        'url': 'https://www.gov.trivechain.com/black-pearl',
-        'start_epoch': 1521429194,
-        'end_epoch': 1547183994,
-        'payment_address': 'yYe8KwyaUu5YswSYmB3q3ryx8XTUu9y7Ui',
-        'payment_amount': Decimal('49'),
+        'name': 'build-trive-governance',
+        'url': 'https://gov.trivechain.com/proposal/build-trive-governance',
+        'start_epoch': 1584083153,
+        'end_epoch': 1586804753,
+        'payment_address': 'TRbXtNoqNVP9AQ2v1UotfM7BJ9PXcAZx9B',
+        'payment_amount': Decimal('100000'),
     }
 
-    # test proposal old format
-    json_str = binascii.unhexlify(proposal_hex_old()).decode('utf-8')
-    assert gobject_json.extract_object(json_str) == expected
-
-    # test proposal new format
+    # test proposal format
     json_str = binascii.unhexlify(proposal_hex_new()).decode('utf-8')
     assert gobject_json.extract_object(json_str) == expected
 
-    # same expected trigger data for both new & old formats
+    # same expected trigger data
     expected = {
         'type': 2,
         'event_block_height': 62500,
-        'payment_addresses': 'yYe8KwyaUu5YswSYmB3q3ryx8XTUu9y7Ui|yTC62huR4YQEPn9AJHjnQxxreHSbgAoatV',
+        'payment_addresses': 'tCa7rDMXs1KeqaqmcFoXxXMmwT9eq9r7oK|t7RKTBNZsTbjwAoXYfsSsTSwimxzDKh5Fu',
         'payment_amounts': '5|3',
+        'proposal_hashes': 'e8a0057914a2e1964ae8a945c4723491caae2077a90a00a2aabee22b40081a87|d1ce73527d7cd6f2218f8ca893990bc7d5c6b9334791ce7973bfa22f155f826e'
     }
 
-    # test trigger old format
-    json_str = binascii.unhexlify(trigger_hex_old()).decode('utf-8')
-    assert gobject_json.extract_object(json_str) == expected
-
-    # test trigger new format
+    # test trigger format
     json_str = binascii.unhexlify(trigger_hex_new()).decode('utf-8')
     assert gobject_json.extract_object(json_str) == expected
